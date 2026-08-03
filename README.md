@@ -17,19 +17,13 @@
 </details>
 
 <details open>
-<summary><strong>setup and build</strong></summary>
+<summary><strong>setup, build, and installation</strong></summary>
 
-install [just](https://just.systems/) and [nushell](https://www.nushell.sh/), then:
+clone chromiumcolor, then install [just](https://just.systems/) and [nushell](https://www.nushell.sh/), then:
 
 ```sh
-git clone https://github.com/u-k-g/chromiumcolor.git
-cd chromiumcolor
-
 # show the available themes, their defaults and all accent colors
 just list
-
-# build the default theme and accent color
-just build
 
 # build a theme with its default accent color
 just build rose-pine
@@ -40,13 +34,6 @@ just build black-metal salmon
 # use any 0–359 hue as a custom accent color
 just build black-metal 17
 ```
-
-The accent color can be a name from `just list` or an integer hue from `0` to `359`. A hue generates the other eight tab-group colors in 7-degree steps around it, and its middle color becomes the omnibox/new-tab-link accent. Themes can declare a curated default; otherwise the builder chooses the named midpoint closest to the authored accent. `just build` writes the selected combination to `dist/chromiumcolor`. run it again and reload the unpacked theme whenever you want to switch combinations.
-
-</details>
-
-<details open>
-<summary><strong>installation</strong></summary>
 
 1. open `chrome://extensions` or `chromium://extensions`
 2. enable **developer mode**

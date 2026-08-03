@@ -219,7 +219,16 @@ ntp_text = "#71717a"
 
 # Accent colors set theme.tab_group_color_palette plus `omnibox_text` and `ntp_link`. Chromium
 # interprets these integers as hue angles for its nine tab-group slots in the order documented by
-# `slots`; the palette midpoint becomes both accent colors.
+# `slots`; the palette midpoint becomes both accent colors. A palette may instead provide an
+# explicit `accent` and override only selected slots, as `grey` does below.
+
+[accent_colors.grey]
+name = "Grey"
+description = "A neutral grey accent that preserves the eight chromatic tab-group colors."
+accent = "#888888"
+inherit_default = true
+slots = ["grey"]
+hues = [-1]
 
 [accent_colors.carnation]
 name = "Carnation"

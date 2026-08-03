@@ -482,16 +482,37 @@ def validate-catalog [catalog: record] {
         fail $"accent_colors.($accent_id).($key) must be a non-empty string"
       }
     }
-    if $accent.slots != $EXPECTED_SLOTS {
-      fail $"accent_colors.($accent_id).slots must contain Chromium's nine tab-group slots in order"
+    if (($accent.slots | describe) !~ '^list') or ($accent.slots | is-empty) {
+      fail $"accent_colors.($accent_id).slots must contain at least one Chromium tab-group slot"
     }
-    if (($accent.hues | describe) !~ '^list') or (($accent.hues | length) != 9) {
-      fail $"accent_colors.($accent_id).hues must contain nine integers from 0 to 359"
+    if not ($accent.slots | all {|slot| $slot in $EXPECTED_SLOTS }) {
+      fail $"accent_colors.($accent_id).slots contains an unknown Chromium tab-group slot"
+    }
+    if (($accent.slots | uniq | length) != ($accent.slots | length)) {
+      fail $"accent_colors.($accent_id).slots must not contain duplicates"
+    }
+    if ('accent' not-in $keys) and ($accent.slots != $EXPECTED_SLOTS) {
+      fail $"accent_colors.($accent_id).slots must contain Chromium's nine tab-group slots in order unless an explicit accent is provided"
+    }
+    if ('accent' in $keys) and ((($accent.accent | describe) != "string") or ($accent.accent !~ '^#[0-9a-fA-F]{6}$')) {
+      fail $"accent_colors.($accent_id).accent must be a #rrggbb color"
+    }
+    if ('inherit_default' in $keys) and (($accent.inherit_default | describe) != "bool") {
+      fail $"accent_colors.($accent_id).inherit_default must be a boolean"
+    }
+    if ('inherit_default' in $keys) and $accent.inherit_default and ('accent' not-in $keys) {
+      fail $"accent_colors.($accent_id) must provide an explicit accent when inheriting a theme's default palette"
+    }
+    if (($accent.hues | describe) !~ '^list') or (($accent.hues | length) != ($accent.slots | length)) {
+      fail $"accent_colors.($accent_id).hues must contain one integer for every slot"
     }
     if not ($accent.hues | all {|value|
-      (($value | describe) == "int") and $value >= 0 and $value <= 359
+      (($value | describe) == "int") and $value >= -1 and $value <= 359
     }) {
-      fail $"accent_colors.($accent_id).hues must contain nine integers from 0 to 359"
+      fail $"accent_colors.($accent_id).hues must contain integers from -1 to 359"
+    }
+    if (($accent.hues | any {|value| $value == -1 })) and ('accent' not-in $keys) {
+      fail $"accent_colors.($accent_id) must provide an explicit accent when using the neutral -1 hue"
     }
   }
 }
@@ -532,12 +553,21 @@ def resolve-accent [catalog: record, choice: string] {
   fail $"unknown accent color or hue '($choice)'; choose a name from `just list` or an integer from 0 to 359"
 }
 
+def palette-accent-hex [palette: record] {
+  if 'accent' in ($palette | columns) {
+    $palette.accent | str uppercase
+  } else {
+    hct-to-hex $palette.hues.4
+  }
+}
+
 def closest-accent-id [catalog: record, theme: record] {
   let accent = rgb-to-lab (rgb $theme.colors.omnibox_text)
   $catalog.accent_colors
   | transpose id palette
+  | where {|entry| 'accent' not-in ($entry.palette | columns) }
   | each {|entry|
-      let midpoint = hct-to-hex $entry.palette.hues.4
+      let midpoint = palette-accent-hex $entry.palette
       {
         id: $entry.id
         distance: (lab-distance $accent (rgb-to-lab (rgb $midpoint)))
@@ -556,6 +586,31 @@ def default-accent-id [catalog: record, theme: record] {
   }
 }
 
+def tab-group-overrides [catalog: record, theme: record, palette: record] {
+  let selected = $palette.slots
+    | zip $palette.hues
+    | reduce -f {} {|pair, overrides|
+        $overrides | insert $"($pair.0)_override" $pair.1
+      }
+  if ('inherit_default' not-in ($palette | columns)) or (not $palette.inherit_default) {
+    return $selected
+  }
+
+  let default_id = default-accent-id $catalog $theme
+  let candidate = $catalog.accent_colors | get $default_id
+  let base = if ('inherit_default' in ($candidate | columns)) and $candidate.inherit_default {
+    $catalog.accent_colors | get (closest-accent-id $catalog $theme)
+  } else {
+    $candidate
+  }
+  let inherited = $base.slots
+    | zip $base.hues
+    | reduce -f {} {|pair, overrides|
+        $overrides | insert $"($pair.0)_override" $pair.1
+      }
+  $inherited | merge $selected
+}
+
 def make-manifest [catalog: record, theme_id: string, accent_choice: string] {
   let theme_ids = $catalog.themes | columns
   if $theme_id not-in $theme_ids {
@@ -564,13 +619,9 @@ def make-manifest [catalog: record, theme_id: string, accent_choice: string] {
 
   let theme = $catalog.themes | get $theme_id
   let palette = resolve-accent $catalog $accent_choice
-  let tab_group_palette = $palette.slots
-    | zip $palette.hues
-    | reduce -f {} {|pair, palette|
-        $palette | insert $"($pair.0)_override" $pair.1
-      }
+  let tab_group_palette = tab-group-overrides $catalog $theme $palette
 
-  let accent_rgb = rgb (hct-to-hex $palette.hues.4)
+  let accent_rgb = rgb (palette-accent-hex $palette)
   let colors = $theme.colors
     | transpose key value
     | reduce -f {} {|entry, generated|
@@ -628,9 +679,14 @@ def validate-manifest [manifest: record] {
     }
   }
   let actual_slots = $manifest.theme.tab_group_color_palette | columns | sort
-  let expected_slots = $EXPECTED_SLOTS | each {|slot| $"($slot)_override" } | sort
-  if $actual_slots != $expected_slots {
-    fail "generated tab-group palette has the wrong slots"
+  let allowed_slots = $EXPECTED_SLOTS | each {|slot| $"($slot)_override" }
+  if ($actual_slots | is-empty) or (not ($actual_slots | all {|slot| $slot in $allowed_slots })) {
+    fail "generated tab-group palette has invalid slots"
+  }
+  for hue in ($manifest.theme.tab_group_color_palette | values) {
+    if (($hue | describe) != "int") or ($hue < -1) or ($hue > 359) {
+      fail "generated tab-group palette has an invalid hue"
+    }
   }
 }
 
@@ -646,10 +702,11 @@ def print-catalog [catalog: record] {
   for accent_id in ($catalog.accent_colors | columns) {
     let accent = $catalog.accent_colors | get $accent_id
     let padded_id = $accent_id | fill --alignment left --width 14
-    let middle_color = hct-to-hex $accent.hues.4
+    let middle_color = palette-accent-hex $accent
     let color = ansi $middle_color
     let reset = ansi reset
-    print $"($color)  ($padded_id) ~ ($middle_color) \(($accent.hues.4)°\)($reset)"
+    let detail = if 'accent' in ($accent | columns) { "neutral" } else { $"($accent.hues.4)°" }
+    print $"($color)  ($padded_id) ~ ($middle_color) \(($detail)\)($reset)"
   }
 }
 
@@ -702,6 +759,7 @@ def main [
     mut combinations = 0
     let accent_ids = $catalog.accent_colors | columns
     for theme_id in ($catalog.themes | columns) {
+      let theme = $catalog.themes | get $theme_id
       let baseline_manifest = make-manifest $catalog $theme_id $accent_ids.0
       let baseline = $baseline_manifest.theme
         | update colors ($baseline_manifest.theme.colors | reject omnibox_text ntp_link)
@@ -716,11 +774,27 @@ def main [
           fail $"accent color '($accent_id)' changes non-accent browser colors for theme '($theme_id)'"
         }
         let accent = $catalog.accent_colors | get $accent_id
-        let expected_accent = rgb (hct-to-hex $accent.hues.4)
+        let expected_accent = rgb (palette-accent-hex $accent)
         if ($manifest.theme.colors.omnibox_text != $expected_accent) or ($manifest.theme.colors.ntp_link != $expected_accent) {
           fail $"accent color '($accent_id)' does not set both accent colors for theme '($theme_id)'"
         }
+        let expected_palette = tab-group-overrides $catalog $theme $accent
+        if $manifest.theme.tab_group_color_palette != $expected_palette {
+          fail $"accent color '($accent_id)' does not set the expected tab-group overrides for theme '($theme_id)'"
+        }
         $combinations = $combinations + 1
+      }
+
+      let default_palette = make-manifest $catalog $theme_id (default-accent-id $catalog $theme)
+      let grey_palette = make-manifest $catalog $theme_id grey
+      for slot in ($EXPECTED_SLOTS | where {|slot| $slot != grey }) {
+        let key = $"($slot)_override"
+        if ($grey_palette.theme.tab_group_color_palette | get $key) != ($default_palette.theme.tab_group_color_palette | get $key) {
+          fail $"grey accent does not preserve the default ($slot) tab-group color for theme '($theme_id)'"
+        }
+      }
+      if $grey_palette.theme.tab_group_color_palette.grey_override != -1 {
+        fail $"grey accent does not set the neutral tab-group color for theme '($theme_id)'"
       }
     }
     for middle in [0 17 359] {
