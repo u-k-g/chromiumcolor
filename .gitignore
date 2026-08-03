@@ -6,4 +6,4 @@
 !/themes.toml
 
 !/scripts/
-!/scripts/build_theme.py
+!/scripts/build-theme.nu

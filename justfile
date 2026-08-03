@@ -10,16 +10,16 @@ default:
 
 # Build one load-unpacked theme in dist/chromiumcolor/.
 build *selection:
-  python3 scripts/build_theme.py {{selection}}
+  nu scripts/build-theme.nu {{selection}}
 
 # List theme and folder-color IDs from themes.toml.
 list:
-  @python3 scripts/build_theme.py --list
+  @nu scripts/build-theme.nu --list
 
 # Validate themes.toml and exercise every combination without writing output.
 check:
-  python3 scripts/build_theme.py --check
+  nu scripts/build-theme.nu --check
 
 # Remove generated manifests.
 clean:
-  python3 scripts/build_theme.py --clean
+  nu scripts/build-theme.nu --clean

@@ -16,7 +16,7 @@
 <details open>
 <summary><strong>setup and build</strong></summary>
 
-install [just](https://just.systems/) and python 3.11 or newer, then:
+install [just](https://just.systems/) and [nushell](https://www.nushell.sh/), then:
 
 ```sh
 git clone https://github.com/u-k-g/chromiumcolor.git
