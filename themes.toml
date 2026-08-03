@@ -11,6 +11,7 @@ default_theme = "zen-dark"
 name = "Gruvbox Dark Hard"
 description = "A warm Chromium theme based on the Gruvbox Dark Hard palette."
 mode = "dark"
+default_accent_color = "lime"
 
 [themes.gruvbox.colors]
 frame = "#1d2021"
@@ -92,22 +93,23 @@ ntp_text = "#6b7089"
 name = "Rosé Pine"
 description = "A muted, elegant Chromium theme based on the official Rosé Pine Chrome theme."
 mode = "dark"
+default_accent_color = "iris"
 
 # Browser surfaces follow the official Rosé Pine Chrome manifest; its authored accent is normalized
 # across `omnibox_text` and `ntp_link` so accent palettes can replace them together.
 # https://github.com/rose-pine/google-chrome/blob/main/rose-pine/manifest.json
 [themes.rose-pine.colors]
-frame = "#26233a"
-frame_inactive = "#26233a"
+frame = "#191724"
+frame_inactive = "#191724"
 bookmark_text = "#e0def4"
 button_background = "#191724"
 tab_background_text = "#908caa"
 tab_background_text_inactive = "#6e6a86"
 tab_text = "#e0def4"
-toolbar = "#26233a"
+toolbar = "#1f1d2e"
 toolbar_button_icon = "#e0def4"
 toolbar_text = "#e0def4"
-frame_incognito = "#000000"
+frame_incognito = "#403d52"
 frame_incognito_inactive = "#403d52"
 tab_background_text_incognito = "#e0def4"
 tab_background_text_incognito_inactive = "#908caa"
@@ -118,12 +120,52 @@ ntp_header = "#1f1d2e"
 ntp_link = "#ebbcba"
 ntp_text = "#908caa"
 
+[themes.rose-pine.properties]
+ntp_background_alignment = "bottom"
+ntp_logo_alternate = 1
+
+[themes.rose-pine-dawn]
+name = "Rosé Pine Dawn"
+description = "A warm light Chromium theme based on the official Rosé Pine Dawn Chrome theme."
+mode = "light"
+default_accent_color = "iris"
+
+# Values and solid swatches mirror the upstream Rosé Pine Dawn Chrome theme. Its Pine omnibox color
+# is used as the authored accent for automatic defaults and accent-palette replacement.
+# https://github.com/rose-pine/google-chrome/blob/main/rose-pine-dawn/manifest.json
+[themes.rose-pine-dawn.colors]
+frame = "#f2e9e1"
+frame_inactive = "#f2e9e1"
+bookmark_text = "#575279"
+button_background = "#faf4ed"
+tab_background_text = "#797593"
+tab_background_text_inactive = "#9893a5"
+tab_text = "#575279"
+toolbar = "#fffaf3"
+toolbar_button_icon = "#575279"
+toolbar_text = "#575279"
+frame_incognito = "#dfdad9"
+frame_incognito_inactive = "#dfdad9"
+tab_background_text_incognito = "#575279"
+tab_background_text_incognito_inactive = "#797593"
+omnibox_text = "#286983"
+omnibox_background = "#faf4ed"
+ntp_background = "#faf4ed"
+ntp_header = "#fffaf3"
+ntp_link = "#286983"
+ntp_text = "#797593"
+
+[themes.rose-pine-dawn.properties]
+ntp_background_alignment = "bottom"
+ntp_logo_alternate = 1
+
 # The Zen palettes use Suda's canvas and foreground as anchors. Chromium-specific surfaces and the
 # light-mode accent are adjusted around them for clear browser chrome.
 [themes.zen-dark]
 name = "Zen Dark"
 description = "A calm dark Chromium theme inspired by Suda's Zen dark palette."
 mode = "dark"
+default_accent_color = "pistachio"
 
 [themes.zen-dark.colors]
 frame = "#19191b"
@@ -151,6 +193,7 @@ ntp_text = "#a1a1aa"
 name = "Zen Light"
 description = "A calm light Chromium theme inspired by Suda's Zen light palette."
 mode = "light"
+default_accent_color = "pistachio"
 
 [themes.zen-light.colors]
 frame = "#f4f1ed"

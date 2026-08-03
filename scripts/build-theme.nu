@@ -445,6 +445,24 @@ def validate-catalog [catalog: record] {
     if ($theme.colors.omnibox_text | str lowercase) != ($theme.colors.ntp_link | str lowercase) {
       fail $"themes.($theme_id) must use the same accent for colors.omnibox_text and colors.ntp_link"
     }
+    if ('default_accent_color' in $keys) and ($theme.default_accent_color not-in $accent_ids) {
+      fail $"themes.($theme_id).default_accent_color references an unknown accent color"
+    }
+    if properties in $keys {
+      if (($theme.properties | describe) !~ '^record') {
+        fail $"themes.($theme_id).properties must be a table"
+      }
+      let property_keys = $theme.properties | columns
+      if not ($property_keys | all {|key| $key in [ntp_background_alignment ntp_logo_alternate] }) {
+        fail $"themes.($theme_id).properties contains an unsupported Chromium property"
+      }
+      if ('ntp_logo_alternate' in $property_keys) and ($theme.properties.ntp_logo_alternate not-in [0 1]) {
+        fail $"themes.($theme_id).properties.ntp_logo_alternate must be 0 or 1"
+      }
+      if ('ntp_background_alignment' in $property_keys) and (($theme.properties.ntp_background_alignment | describe) != "string") {
+        fail $"themes.($theme_id).properties.ntp_background_alignment must be a string"
+      }
+    }
   }
 
   for accent_id in $accent_ids {
@@ -530,6 +548,14 @@ def closest-accent-id [catalog: record, theme: record] {
   | get id
 }
 
+def default-accent-id [catalog: record, theme: record] {
+  if 'default_accent_color' in ($theme | columns) {
+    $theme.default_accent_color
+  } else {
+    closest-accent-id $catalog $theme
+  }
+}
+
 def make-manifest [catalog: record, theme_id: string, accent_choice: string] {
   let theme_ids = $catalog.themes | columns
   if $theme_id not-in $theme_ids {
@@ -553,25 +579,31 @@ def make-manifest [catalog: record, theme_id: string, accent_choice: string] {
     | upsert omnibox_text $accent_rgb
     | upsert ntp_link $accent_rgb
 
+  mut properties = {
+    ntp_logo_alternate: (if $theme.mode == dark { 1 } else { 0 })
+  }
+  if properties in ($theme | columns) {
+    $properties = $properties | merge $theme.properties
+  }
+
+  let generated_theme = {
+    colors: $colors
+    tab_group_color_palette: $tab_group_palette
+    tints: {
+      buttons: [-1 -1 -1]
+      frame: [-1 -1 -1]
+      frame_inactive: [-1 -1 -1]
+      frame_incognito: [-1 -1 -1]
+      frame_incognito_inactive: [-1 -1 -1]
+    }
+    properties: $properties
+  }
   {
     version: $catalog.project.version
     name: $"($catalog.project.name) — ($theme.name) / ($palette.name)"
     description: $"($theme.description) ($palette.name) colors apply to tab groups and accents."
     manifest_version: 3
-    theme: {
-      colors: $colors
-      tab_group_color_palette: $tab_group_palette
-      tints: {
-        buttons: [-1 -1 -1]
-        frame: [-1 -1 -1]
-        frame_inactive: [-1 -1 -1]
-        frame_incognito: [-1 -1 -1]
-        frame_incognito_inactive: [-1 -1 -1]
-      }
-      properties: {
-        ntp_logo_alternate: (if $theme.mode == dark { 1 } else { 0 })
-      }
-    }
+    theme: $generated_theme
   }
 }
 
@@ -607,7 +639,7 @@ def print-catalog [catalog: record] {
   for theme_id in ($catalog.themes | columns) {
     let theme = $catalog.themes | get $theme_id
     let padded_id = $theme_id | fill --alignment left --width 14
-    let default_accent = closest-accent-id $catalog $theme
+    let default_accent = default-accent-id $catalog $theme
     print $"  ($padded_id) default: ($default_accent)"
   }
   print "\nAccent colors:"
@@ -721,7 +753,7 @@ def main [
   let accent_id = if ($selection | length) == 2 {
     $selection.1
   } else {
-    closest-accent-id $catalog $theme
+    default-accent-id $catalog $theme
   }
   let manifest = make-manifest $catalog $theme_id $accent_id
   validate-manifest $manifest
