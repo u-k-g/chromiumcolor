@@ -33,9 +33,12 @@ just build rose-pine
 
 # build a specific theme and folder-color combination
 just build black-metal salmon
+
+# use any 0–359 hue as the middle tab-group color
+just build black-metal 17
 ```
 
-`just build` writes the selected combination to `dist/chromiumcolor`. run it again and reload the unpacked theme whenever you want to switch combinations.
+The folder color can be a name from `just list` or an integer hue from `0` to `359`. A hue generates the other eight tab-group colors in 7-degree steps around it. `just build` writes the selected combination to `dist/chromiumcolor`. run it again and reload the unpacked theme whenever you want to switch combinations.
 
 </details>
 

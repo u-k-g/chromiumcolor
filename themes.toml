@@ -3,52 +3,122 @@ name = "ChromiumColor"
 version = "2.0.0"
 default_theme = "zen-dark"
 
-# Browser UI themes. Folder/tab-group colors are deliberately not defined here: a build can pair
-# any theme below with any independent folder_colors palette.
+# Every browser UI color is explicit so each theme can tune Chromium surfaces independently.
+# Folder/tab-group colors remain separate: any theme can pair with any folder_colors palette.
 
 [themes.gruvbox]
 name = "Gruvbox Dark Hard"
 description = "A warm Chromium theme based on the Gruvbox Dark Hard palette."
 mode = "dark"
-frame = "#1d2021"
-toolbar = "#282828"
-foreground = "#ebdbb2"
-muted = "#a89984"
-accent = "#d79921"
 default_folder_color = "peach"
+
+[themes.gruvbox.colors]
+frame = "#1d2021"
+frame_inactive = "#1d2021"
+bookmark_text = "#ebdbb2"
+button_background = "#1d2021"
+tab_background_text = "#a89984"
+tab_background_text_inactive = "#a89984"
+tab_text = "#ebdbb2"
+toolbar = "#282828"
+toolbar_button_icon = "#ebdbb2"
+toolbar_text = "#ebdbb2"
+frame_incognito = "#1d2021"
+frame_incognito_inactive = "#1d2021"
+tab_background_text_incognito = "#ebdbb2"
+tab_background_text_incognito_inactive = "#a89984"
+omnibox_text = "#d79921"
+omnibox_background = "#1d2021"
+ntp_background = "#1d2021"
+ntp_header = "#282828"
+ntp_link = "#d79921"
+ntp_text = "#a89984"
 
 [themes.black-metal]
 name = "Black Metal"
 description = "A stark, near-monochrome Chromium theme based on the Black Metal palette."
 mode = "dark"
+default_folder_color = "salmon"
+
+[themes.black-metal.colors]
 frame = "#000000"
+frame_inactive = "#000000"
+bookmark_text = "#c1c1c1"
+button_background = "#000000"
+tab_background_text = "#888888"
+tab_background_text_inactive = "#888888"
+tab_text = "#c1c1c1"
 toolbar = "#111111"
-foreground = "#c1c1c1"
-muted = "#888888"
-accent = "#888888"
-default_folder_color = "cyan"
+toolbar_button_icon = "#c1c1c1"
+toolbar_text = "#c1c1c1"
+frame_incognito = "#000000"
+frame_incognito_inactive = "#000000"
+tab_background_text_incognito = "#c1c1c1"
+tab_background_text_incognito_inactive = "#888888"
+omnibox_text = "#888888"
+omnibox_background = "#000000"
+ntp_background = "#000000"
+ntp_header = "#111111"
+ntp_link = "#888888"
+ntp_text = "#888888"
 
 [themes.iceberg-dark]
 name = "Iceberg Dark"
 description = "A cool blue Chromium theme based on the Iceberg dark palette."
 mode = "dark"
-frame = "#161821"
-toolbar = "#1e2132"
-foreground = "#c6c8d1"
-muted = "#6b7089"
-accent = "#84a0c6"
 default_folder_color = "azure"
 
+[themes.iceberg-dark.colors]
+frame = "#161821"
+frame_inactive = "#161821"
+bookmark_text = "#c6c8d1"
+button_background = "#161821"
+tab_background_text = "#6b7089"
+tab_background_text_inactive = "#6b7089"
+tab_text = "#c6c8d1"
+toolbar = "#1e2132"
+toolbar_button_icon = "#c6c8d1"
+toolbar_text = "#c6c8d1"
+frame_incognito = "#161821"
+frame_incognito_inactive = "#161821"
+tab_background_text_incognito = "#c6c8d1"
+tab_background_text_incognito_inactive = "#6b7089"
+omnibox_text = "#84a0c6"
+omnibox_background = "#161821"
+ntp_background = "#161821"
+ntp_header = "#1e2132"
+ntp_link = "#84a0c6"
+ntp_text = "#6b7089"
+
 [themes.rose-pine]
-name = "Rose Pine"
-description = "A muted, elegant Chromium theme based on the Rose Pine palette."
+name = "Rosé Pine"
+description = "A muted, elegant Chromium theme based on the official Rosé Pine Chrome theme."
 mode = "dark"
-frame = "#191724"
-toolbar = "#1f1d2e"
-foreground = "#e0def4"
-muted = "#908caa"
-accent = "#9ccfd8"
 default_folder_color = "rose"
+
+# Match the official Rosé Pine Chrome manifest while leaving tab-group colors independent.
+# https://github.com/rose-pine/google-chrome/blob/main/rose-pine/manifest.json
+[themes.rose-pine.colors]
+frame = "#26233a"
+frame_inactive = "#26233a"
+bookmark_text = "#e0def4"
+button_background = "#191724"
+tab_background_text = "#908caa"
+tab_background_text_inactive = "#6e6a86"
+tab_text = "#e0def4"
+toolbar = "#26233a"
+toolbar_button_icon = "#e0def4"
+toolbar_text = "#e0def4"
+frame_incognito = "#000000"
+frame_incognito_inactive = "#403d52"
+tab_background_text_incognito = "#e0def4"
+tab_background_text_incognito_inactive = "#908caa"
+omnibox_text = "#ebbcba"
+omnibox_background = "#191724"
+ntp_background = "#191724"
+ntp_header = "#1f1d2e"
+ntp_link = "#908caa"
+ntp_text = "#908caa"
 
 # The Zen palettes use Suda's canvas and foreground as anchors. Chromium-specific surfaces and the
 # light-mode accent are adjusted around them for clear browser chrome.
@@ -56,23 +126,57 @@ default_folder_color = "rose"
 name = "Zen Dark"
 description = "A calm dark Chromium theme inspired by Suda's Zen dark palette."
 mode = "dark"
-frame = "#19191b"
-toolbar = "#28282a"
-foreground = "#f5f5f4"
-muted = "#a1a1aa"
-accent = "#6ced96"
 default_folder_color = "pistachio"
+
+[themes.zen-dark.colors]
+frame = "#19191b"
+frame_inactive = "#19191b"
+bookmark_text = "#f5f5f4"
+button_background = "#19191b"
+tab_background_text = "#a1a1aa"
+tab_background_text_inactive = "#a1a1aa"
+tab_text = "#f5f5f4"
+toolbar = "#28282a"
+toolbar_button_icon = "#f5f5f4"
+toolbar_text = "#f5f5f4"
+frame_incognito = "#19191b"
+frame_incognito_inactive = "#19191b"
+tab_background_text_incognito = "#f5f5f4"
+tab_background_text_incognito_inactive = "#a1a1aa"
+omnibox_text = "#6ced96"
+omnibox_background = "#19191b"
+ntp_background = "#19191b"
+ntp_header = "#28282a"
+ntp_link = "#6ced96"
+ntp_text = "#a1a1aa"
 
 [themes.zen-light]
 name = "Zen Light"
 description = "A calm light Chromium theme inspired by Suda's Zen light palette."
 mode = "light"
-frame = "#f4f1ed"
-toolbar = "#e6e3df"
-foreground = "#27272a"
-muted = "#71717a"
-accent = "#2d633f"
 default_folder_color = "pistachio"
+
+[themes.zen-light.colors]
+frame = "#f4f1ed"
+frame_inactive = "#f4f1ed"
+bookmark_text = "#27272a"
+button_background = "#f4f1ed"
+tab_background_text = "#71717a"
+tab_background_text_inactive = "#71717a"
+tab_text = "#27272a"
+toolbar = "#e6e3df"
+toolbar_button_icon = "#27272a"
+toolbar_text = "#27272a"
+frame_incognito = "#f4f1ed"
+frame_incognito_inactive = "#f4f1ed"
+tab_background_text_incognito = "#27272a"
+tab_background_text_incognito_inactive = "#71717a"
+omnibox_text = "#2d633f"
+omnibox_background = "#f4f1ed"
+ntp_background = "#f4f1ed"
+ntp_header = "#e6e3df"
+ntp_link = "#2d633f"
+ntp_text = "#71717a"
 
 # Folder colors affect only theme.tab_group_color_palette. Chromium interprets these integers as
 # hue angles for its nine built-in tab-group color slots, in the order documented by `slots`.
@@ -80,215 +184,215 @@ default_folder_color = "pistachio"
 [folder_colors.carnation]
 name = "Carnation"
 description = "A soft pink range centered at 0 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [320, 330, 340, 350, 0, 10, 20, 30, 40]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [332, 339, 346, 353, 0, 7, 14, 21, 28]
 
 [folder_colors.flamingo]
 name = "Flamingo"
 description = "A warm pink range centered at 10 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [330, 340, 350, 0, 10, 20, 30, 40, 50]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [342, 349, 356, 3, 10, 17, 24, 31, 38]
 
 [folder_colors.salmon]
 name = "Salmon"
 description = "A pink-coral range centered at 20 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [340, 350, 0, 10, 20, 30, 40, 50, 60]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [352, 359, 6, 13, 20, 27, 34, 41, 48]
 
 [folder_colors.coral]
 name = "Coral"
 description = "A coral range centered at 30 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [350, 0, 10, 20, 30, 40, 50, 60, 70]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [2, 9, 16, 23, 30, 37, 44, 51, 58]
 
 [folder_colors.peach]
 name = "Peach"
 description = "A peach range centered at 40 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [0, 10, 20, 30, 40, 50, 60, 70, 80]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [12, 19, 26, 33, 40, 47, 54, 61, 68]
 
 [folder_colors.apricot]
 name = "Apricot"
 description = "An apricot range centered at 50 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [22, 29, 36, 43, 50, 57, 64, 71, 78]
 
 [folder_colors.tangerine]
 name = "Tangerine"
 description = "A tangerine range centered at 60 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [20, 30, 40, 50, 60, 70, 80, 90, 100]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [32, 39, 46, 53, 60, 67, 74, 81, 88]
 
 [folder_colors.orange]
 name = "Orange"
 description = "An orange range centered at 70 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [30, 40, 50, 60, 70, 80, 90, 100, 110]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [42, 49, 56, 63, 70, 77, 84, 91, 98]
 
 [folder_colors.amber]
 name = "Amber"
 description = "An amber range centered at 80 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [40, 50, 60, 70, 80, 90, 100, 110, 120]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [52, 59, 66, 73, 80, 87, 94, 101, 108]
 
 [folder_colors.gold]
 name = "Gold"
 description = "A gold range centered at 90 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [50, 60, 70, 80, 90, 100, 110, 120, 130]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [62, 69, 76, 83, 90, 97, 104, 111, 118]
 
 [folder_colors.mustard]
 name = "Mustard"
 description = "A mustard range centered at 100 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [60, 70, 80, 90, 100, 110, 120, 130, 140]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [72, 79, 86, 93, 100, 107, 114, 121, 128]
 
 [folder_colors.citron]
 name = "Citron"
 description = "A citron range centered at 110 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [70, 80, 90, 100, 110, 120, 130, 140, 150]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [82, 89, 96, 103, 110, 117, 124, 131, 138]
 
 [folder_colors.chartreuse]
 name = "Chartreuse"
 description = "A chartreuse range centered at 120 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [80, 90, 100, 110, 120, 130, 140, 150, 160]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [92, 99, 106, 113, 120, 127, 134, 141, 148]
 
 [folder_colors.lime]
 name = "Lime"
 description = "A lime range centered at 130 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [90, 100, 110, 120, 130, 140, 150, 160, 170]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [102, 109, 116, 123, 130, 137, 144, 151, 158]
 
 [folder_colors.pistachio]
 name = "Pistachio"
 description = "A pistachio range centered at 140 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [100, 110, 120, 130, 140, 150, 160, 170, 180]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [112, 119, 126, 133, 140, 147, 154, 161, 168]
 
 [folder_colors.emerald]
 name = "Emerald"
 description = "An emerald range centered at 150 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [110, 120, 130, 140, 150, 160, 170, 180, 190]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [122, 129, 136, 143, 150, 157, 164, 171, 178]
 
 [folder_colors.mint]
 name = "Mint"
 description = "A mint range centered at 160 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [120, 130, 140, 150, 160, 170, 180, 190, 200]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [132, 139, 146, 153, 160, 167, 174, 181, 188]
 
 [folder_colors.aquamarine]
 name = "Aquamarine"
 description = "An aquamarine range centered at 170 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [130, 140, 150, 160, 170, 180, 190, 200, 210]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [142, 149, 156, 163, 170, 177, 184, 191, 198]
 
 [folder_colors.turquoise]
 name = "Turquoise"
 description = "A turquoise range centered at 180 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [140, 150, 160, 170, 180, 190, 200, 210, 220]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [152, 159, 166, 173, 180, 187, 194, 201, 208]
 
 [folder_colors.aqua]
 name = "Aqua"
 description = "An aqua range centered at 190 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [150, 160, 170, 180, 190, 200, 210, 220, 230]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [162, 169, 176, 183, 190, 197, 204, 211, 218]
 
 [folder_colors.cyan]
 name = "Cyan"
 description = "A cyan range centered at 200 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [160, 170, 180, 190, 200, 210, 220, 230, 240]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [172, 179, 186, 193, 200, 207, 214, 221, 228]
 
 [folder_colors.cerulean]
 name = "Cerulean"
 description = "A cerulean range centered at 210 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [170, 180, 190, 200, 210, 220, 230, 240, 250]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [182, 189, 196, 203, 210, 217, 224, 231, 238]
 
 [folder_colors.azure]
 name = "Azure"
 description = "An azure range centered at 220 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [180, 190, 200, 210, 220, 230, 240, 250, 260]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [192, 199, 206, 213, 220, 227, 234, 241, 248]
 
 [folder_colors.sky]
 name = "Sky"
 description = "A sky range centered at 230 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [190, 200, 210, 220, 230, 240, 250, 260, 270]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [202, 209, 216, 223, 230, 237, 244, 251, 258]
 
 [folder_colors.capri]
 name = "Capri"
 description = "A capri-blue range centered at 240 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [200, 210, 220, 230, 240, 250, 260, 270, 280]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [212, 219, 226, 233, 240, 247, 254, 261, 268]
 
 [folder_colors.cornflower]
 name = "Cornflower"
 description = "A cornflower range centered at 250 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [210, 220, 230, 240, 250, 260, 270, 280, 290]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [222, 229, 236, 243, 250, 257, 264, 271, 278]
 
 [folder_colors.periwinkle]
 name = "Periwinkle"
 description = "A periwinkle range centered at 260 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [220, 230, 240, 250, 260, 270, 280, 290, 300]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [232, 239, 246, 253, 260, 267, 274, 281, 288]
 
 [folder_colors.iris]
 name = "Iris"
 description = "An iris range centered at 270 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [230, 240, 250, 260, 270, 280, 290, 300, 310]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [242, 249, 256, 263, 270, 277, 284, 291, 298]
 
 [folder_colors.lavender]
 name = "Lavender"
 description = "A lavender range centered at 280 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [240, 250, 260, 270, 280, 290, 300, 310, 320]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [252, 259, 266, 273, 280, 287, 294, 301, 308]
 
 [folder_colors.wisteria]
 name = "Wisteria"
 description = "A wisteria range centered at 290 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [250, 260, 270, 280, 290, 300, 310, 320, 330]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [262, 269, 276, 283, 290, 297, 304, 311, 318]
 
 [folder_colors.lilac]
 name = "Lilac"
 description = "A lilac range centered at 300 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [260, 270, 280, 290, 300, 310, 320, 330, 340]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [272, 279, 286, 293, 300, 307, 314, 321, 328]
 
 [folder_colors.amethyst]
 name = "Amethyst"
 description = "An amethyst range centered at 310 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [270, 280, 290, 300, 310, 320, 330, 340, 350]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [282, 289, 296, 303, 310, 317, 324, 331, 338]
 
 [folder_colors.orchid]
 name = "Orchid"
 description = "An orchid range centered at 320 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [280, 290, 300, 310, 320, 330, 340, 350, 0]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [292, 299, 306, 313, 320, 327, 334, 341, 348]
 
 [folder_colors.plum]
 name = "Plum"
 description = "A plum range centered at 330 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [290, 300, 310, 320, 330, 340, 350, 0, 10]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [302, 309, 316, 323, 330, 337, 344, 351, 358]
 
 [folder_colors.fuchsia]
 name = "Fuchsia"
 description = "A fuchsia range centered at 340 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [300, 310, 320, 330, 340, 350, 0, 10, 20]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [312, 319, 326, 333, 340, 347, 354, 1, 8]
 
 [folder_colors.rose]
 name = "Rose"
 description = "A rose range centered at 350 degrees."
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [310, 320, 330, 340, 350, 0, 10, 20, 30]
+slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
+hues = [322, 329, 336, 343, 350, 357, 4, 11, 18]

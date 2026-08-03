@@ -1,27 +1,46 @@
 #!/usr/bin/env nu
 
 const EXPECTED_SLOTS = [
-  grey
   blue
+  purple
+  pink
   red
+  orange
   yellow
   green
-  pink
-  purple
   cyan
-  orange
+  grey
 ]
 
 const REQUIRED_THEME_KEYS = [
   name
   description
   mode
-  frame
-  toolbar
-  foreground
-  muted
-  accent
   default_folder_color
+  colors
+]
+
+const THEME_COLOR_KEYS = [
+  frame
+  frame_inactive
+  bookmark_text
+  button_background
+  tab_background_text
+  tab_background_text_inactive
+  tab_text
+  toolbar
+  toolbar_button_icon
+  toolbar_text
+  frame_incognito
+  frame_incognito_inactive
+  tab_background_text_incognito
+  tab_background_text_incognito_inactive
+  omnibox_text
+  omnibox_background
+  ntp_background
+  ntp_header
+  ntp_link
+  ntp_text
 ]
 
 # Chromium generates the tab-strip color shown on a dark frame as Material HCT shade 300.
@@ -380,10 +399,18 @@ def validate-catalog [catalog: record] {
         fail $"themes.($theme_id).($key) must be a non-empty string"
       }
     }
-    for key in [frame toolbar foreground muted accent] {
-      let value = $theme | get $key
+    if (($theme.colors | describe) !~ '^record') {
+      fail $"themes.($theme_id).colors must be a table"
+    }
+    let actual_color_keys = $theme.colors | columns | sort
+    let expected_color_keys = $THEME_COLOR_KEYS | sort
+    if $actual_color_keys != $expected_color_keys {
+      fail $"themes.($theme_id).colors must contain every supported Chromium color exactly once"
+    }
+    for key in $THEME_COLOR_KEYS {
+      let value = $theme.colors | get $key
       if (($value | describe) != "string") or ($value !~ '^#[0-9a-fA-F]{6}$') {
-        fail $"themes.($theme_id).($key) must be a #rrggbb color"
+        fail $"themes.($theme_id).colors.($key) must be a #rrggbb color"
       }
     }
     if $theme.default_folder_color not-in $folder_ids {
@@ -432,27 +459,50 @@ def load-catalog [catalog_path: path] {
   $catalog
 }
 
-def make-manifest [catalog: record, theme_id: string, folder_id: string] {
-  let theme_ids = $catalog.themes | columns
+def hues-around [middle: int] {
+  0..8 | each {|index|
+    (($middle - 28 + ($index * 7) + 360) mod 360)
+  }
+}
+
+def resolve-folder [catalog: record, choice: string] {
   let folder_ids = $catalog.folder_colors | columns
+  if $choice in $folder_ids {
+    return ($catalog.folder_colors | get $choice)
+  }
+  if $choice =~ '^-?\d+$' {
+    let middle = $choice | into int
+    if $middle < 0 or $middle > 359 {
+      fail $"folder hue must be an integer from 0 to 359; got '($choice)'"
+    }
+    return {
+      name: $"Hue ($middle)°"
+      description: $"A custom tab-group range centered at ($middle) degrees."
+      slots: $EXPECTED_SLOTS
+      hues: (hues-around $middle)
+    }
+  }
+  fail $"unknown folder color or hue '($choice)'; choose a name from `just list` or an integer from 0 to 359"
+}
+
+def make-manifest [catalog: record, theme_id: string, folder_choice: string] {
+  let theme_ids = $catalog.themes | columns
   if $theme_id not-in $theme_ids {
     fail $"unknown theme '($theme_id)'; choose one of: ($theme_ids | str join ', ')"
   }
-  if $folder_id not-in $folder_ids {
-    fail $"unknown folder color '($folder_id)'; choose one of: ($folder_ids | str join ', ')"
-  }
 
   let theme = $catalog.themes | get $theme_id
-  let folder = $catalog.folder_colors | get $folder_id
-  let frame = rgb $theme.frame
-  let toolbar = rgb $theme.toolbar
-  let foreground = rgb $theme.foreground
-  let muted = rgb $theme.muted
-  let accent = rgb $theme.accent
+  let folder = resolve-folder $catalog $folder_choice
   let tab_group_palette = $folder.slots
     | zip $folder.hues
     | reduce -f {} {|pair, palette|
         $palette | insert $"($pair.0)_override" $pair.1
+      }
+
+  let colors = $theme.colors
+    | transpose key value
+    | reduce -f {} {|entry, generated|
+        $generated | insert $entry.key (rgb $entry.value)
       }
 
   {
@@ -461,28 +511,7 @@ def make-manifest [catalog: record, theme_id: string, folder_id: string] {
     description: $"($theme.description) ($folder.name) colors apply only to tab groups."
     manifest_version: 3
     theme: {
-      colors: {
-        frame: $frame
-        frame_inactive: $frame
-        bookmark_text: $foreground
-        button_background: $frame
-        tab_background_text: $muted
-        tab_background_text_inactive: $muted
-        tab_text: $foreground
-        toolbar: $toolbar
-        toolbar_button_icon: $foreground
-        toolbar_text: $foreground
-        frame_incognito: $frame
-        frame_incognito_inactive: $frame
-        tab_background_text_incognito: $foreground
-        tab_background_text_incognito_inactive: $muted
-        omnibox_text: $accent
-        omnibox_background: $frame
-        ntp_background: $frame
-        ntp_header: $toolbar
-        ntp_link: $accent
-        ntp_text: $muted
-      }
+      colors: $colors
       tab_group_color_palette: $tab_group_palette
       tints: {
         buttons: [-1 -1 -1]
@@ -559,7 +588,7 @@ def main [
   --clean
 ] {
   if ($selection | length) > 2 {
-    fail "usage: just build [theme] [folder-color]"
+    fail "usage: just build [theme] [folder-color|hue]"
   }
   if ([$list $check $clean] | where {|action| $action } | length) > 1 {
     fail "choose only one of --list, --check or --clean"
@@ -606,7 +635,16 @@ def main [
         $combinations = $combinations + 1
       }
     }
-    print $"Validated ($combinations) theme/folder-color combinations."
+    for middle in [0 17 359] {
+      let manifest = make-manifest $catalog $catalog.project.default_theme ($middle | into string)
+      validate-manifest $manifest
+      let actual_hues = $manifest.theme.tab_group_color_palette | values
+      let expected_hues = hues-around $middle
+      if $actual_hues != $expected_hues {
+        fail $"custom folder hue ($middle) did not generate the expected 7-degree range"
+      }
+    }
+    print $"Validated ($combinations) named combinations and custom hue generation."
     return
   }
 
