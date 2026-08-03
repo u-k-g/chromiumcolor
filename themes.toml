@@ -4,13 +4,13 @@ version = "2.0.0"
 default_theme = "zen-dark"
 
 # Every browser UI color is explicit so each theme can tune Chromium surfaces independently.
-# Folder/tab-group colors remain separate: any theme can pair with any folder_colors palette.
+# `omnibox_text` and `ntp_link` define one authored accent and must match. At build time the chosen
+# accent palette replaces both with its calculated midpoint, keeping the browser accent in sync.
 
 [themes.gruvbox]
 name = "Gruvbox Dark Hard"
 description = "A warm Chromium theme based on the Gruvbox Dark Hard palette."
 mode = "dark"
-default_folder_color = "peach"
 
 [themes.gruvbox.colors]
 frame = "#1d2021"
@@ -38,7 +38,6 @@ ntp_text = "#a89984"
 name = "Black Metal"
 description = "A stark, near-monochrome Chromium theme based on the Black Metal palette."
 mode = "dark"
-default_folder_color = "salmon"
 
 [themes.black-metal.colors]
 frame = "#000000"
@@ -55,18 +54,17 @@ frame_incognito = "#000000"
 frame_incognito_inactive = "#000000"
 tab_background_text_incognito = "#c1c1c1"
 tab_background_text_incognito_inactive = "#888888"
-omnibox_text = "#888888"
+omnibox_text = "#a06666"
 omnibox_background = "#000000"
 ntp_background = "#000000"
 ntp_header = "#111111"
-ntp_link = "#888888"
+ntp_link = "#a06666"
 ntp_text = "#888888"
 
 [themes.iceberg-dark]
 name = "Iceberg Dark"
 description = "A cool blue Chromium theme based on the Iceberg dark palette."
 mode = "dark"
-default_folder_color = "azure"
 
 [themes.iceberg-dark.colors]
 frame = "#161821"
@@ -94,9 +92,9 @@ ntp_text = "#6b7089"
 name = "Rosé Pine"
 description = "A muted, elegant Chromium theme based on the official Rosé Pine Chrome theme."
 mode = "dark"
-default_folder_color = "rose"
 
-# Match the official Rosé Pine Chrome manifest while leaving tab-group colors independent.
+# Browser surfaces follow the official Rosé Pine Chrome manifest; its authored accent is normalized
+# across `omnibox_text` and `ntp_link` so accent palettes can replace them together.
 # https://github.com/rose-pine/google-chrome/blob/main/rose-pine/manifest.json
 [themes.rose-pine.colors]
 frame = "#26233a"
@@ -117,7 +115,7 @@ omnibox_text = "#ebbcba"
 omnibox_background = "#191724"
 ntp_background = "#191724"
 ntp_header = "#1f1d2e"
-ntp_link = "#908caa"
+ntp_link = "#ebbcba"
 ntp_text = "#908caa"
 
 # The Zen palettes use Suda's canvas and foreground as anchors. Chromium-specific surfaces and the
@@ -126,7 +124,6 @@ ntp_text = "#908caa"
 name = "Zen Dark"
 description = "A calm dark Chromium theme inspired by Suda's Zen dark palette."
 mode = "dark"
-default_folder_color = "pistachio"
 
 [themes.zen-dark.colors]
 frame = "#19191b"
@@ -154,7 +151,6 @@ ntp_text = "#a1a1aa"
 name = "Zen Light"
 description = "A calm light Chromium theme inspired by Suda's Zen light palette."
 mode = "light"
-default_folder_color = "pistachio"
 
 [themes.zen-light.colors]
 frame = "#f4f1ed"
@@ -178,220 +174,221 @@ ntp_header = "#e6e3df"
 ntp_link = "#2d633f"
 ntp_text = "#71717a"
 
-# Folder colors affect only theme.tab_group_color_palette. Chromium interprets these integers as
-# hue angles for its nine built-in tab-group color slots, in the order documented by `slots`.
+# Accent colors set theme.tab_group_color_palette plus `omnibox_text` and `ntp_link`. Chromium
+# interprets these integers as hue angles for its nine tab-group slots in the order documented by
+# `slots`; the palette midpoint becomes both accent colors.
 
-[folder_colors.carnation]
+[accent_colors.carnation]
 name = "Carnation"
 description = "A soft pink range centered at 0 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [332, 339, 346, 353, 0, 7, 14, 21, 28]
 
-[folder_colors.flamingo]
+[accent_colors.flamingo]
 name = "Flamingo"
 description = "A warm pink range centered at 10 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [342, 349, 356, 3, 10, 17, 24, 31, 38]
 
-[folder_colors.salmon]
+[accent_colors.salmon]
 name = "Salmon"
 description = "A pink-coral range centered at 20 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [352, 359, 6, 13, 20, 27, 34, 41, 48]
 
-[folder_colors.coral]
+[accent_colors.coral]
 name = "Coral"
 description = "A coral range centered at 30 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [2, 9, 16, 23, 30, 37, 44, 51, 58]
 
-[folder_colors.peach]
+[accent_colors.peach]
 name = "Peach"
 description = "A peach range centered at 40 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [12, 19, 26, 33, 40, 47, 54, 61, 68]
 
-[folder_colors.apricot]
+[accent_colors.apricot]
 name = "Apricot"
 description = "An apricot range centered at 50 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [22, 29, 36, 43, 50, 57, 64, 71, 78]
 
-[folder_colors.tangerine]
+[accent_colors.tangerine]
 name = "Tangerine"
 description = "A tangerine range centered at 60 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [32, 39, 46, 53, 60, 67, 74, 81, 88]
 
-[folder_colors.orange]
+[accent_colors.orange]
 name = "Orange"
 description = "An orange range centered at 70 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [42, 49, 56, 63, 70, 77, 84, 91, 98]
 
-[folder_colors.amber]
+[accent_colors.amber]
 name = "Amber"
 description = "An amber range centered at 80 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [52, 59, 66, 73, 80, 87, 94, 101, 108]
 
-[folder_colors.gold]
+[accent_colors.gold]
 name = "Gold"
 description = "A gold range centered at 90 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [62, 69, 76, 83, 90, 97, 104, 111, 118]
 
-[folder_colors.mustard]
+[accent_colors.mustard]
 name = "Mustard"
 description = "A mustard range centered at 100 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [72, 79, 86, 93, 100, 107, 114, 121, 128]
 
-[folder_colors.citron]
+[accent_colors.citron]
 name = "Citron"
 description = "A citron range centered at 110 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [82, 89, 96, 103, 110, 117, 124, 131, 138]
 
-[folder_colors.chartreuse]
+[accent_colors.chartreuse]
 name = "Chartreuse"
 description = "A chartreuse range centered at 120 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [92, 99, 106, 113, 120, 127, 134, 141, 148]
 
-[folder_colors.lime]
+[accent_colors.lime]
 name = "Lime"
 description = "A lime range centered at 130 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [102, 109, 116, 123, 130, 137, 144, 151, 158]
 
-[folder_colors.pistachio]
+[accent_colors.pistachio]
 name = "Pistachio"
 description = "A pistachio range centered at 140 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [112, 119, 126, 133, 140, 147, 154, 161, 168]
 
-[folder_colors.emerald]
+[accent_colors.emerald]
 name = "Emerald"
 description = "An emerald range centered at 150 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [122, 129, 136, 143, 150, 157, 164, 171, 178]
 
-[folder_colors.mint]
+[accent_colors.mint]
 name = "Mint"
 description = "A mint range centered at 160 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [132, 139, 146, 153, 160, 167, 174, 181, 188]
 
-[folder_colors.aquamarine]
+[accent_colors.aquamarine]
 name = "Aquamarine"
 description = "An aquamarine range centered at 170 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [142, 149, 156, 163, 170, 177, 184, 191, 198]
 
-[folder_colors.turquoise]
+[accent_colors.turquoise]
 name = "Turquoise"
 description = "A turquoise range centered at 180 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [152, 159, 166, 173, 180, 187, 194, 201, 208]
 
-[folder_colors.aqua]
+[accent_colors.aqua]
 name = "Aqua"
 description = "An aqua range centered at 190 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [162, 169, 176, 183, 190, 197, 204, 211, 218]
 
-[folder_colors.cyan]
+[accent_colors.cyan]
 name = "Cyan"
 description = "A cyan range centered at 200 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [172, 179, 186, 193, 200, 207, 214, 221, 228]
 
-[folder_colors.cerulean]
+[accent_colors.cerulean]
 name = "Cerulean"
 description = "A cerulean range centered at 210 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [182, 189, 196, 203, 210, 217, 224, 231, 238]
 
-[folder_colors.azure]
+[accent_colors.azure]
 name = "Azure"
 description = "An azure range centered at 220 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [192, 199, 206, 213, 220, 227, 234, 241, 248]
 
-[folder_colors.sky]
+[accent_colors.sky]
 name = "Sky"
 description = "A sky range centered at 230 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [202, 209, 216, 223, 230, 237, 244, 251, 258]
 
-[folder_colors.capri]
+[accent_colors.capri]
 name = "Capri"
 description = "A capri-blue range centered at 240 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [212, 219, 226, 233, 240, 247, 254, 261, 268]
 
-[folder_colors.cornflower]
+[accent_colors.cornflower]
 name = "Cornflower"
 description = "A cornflower range centered at 250 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [222, 229, 236, 243, 250, 257, 264, 271, 278]
 
-[folder_colors.periwinkle]
+[accent_colors.periwinkle]
 name = "Periwinkle"
 description = "A periwinkle range centered at 260 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [232, 239, 246, 253, 260, 267, 274, 281, 288]
 
-[folder_colors.iris]
+[accent_colors.iris]
 name = "Iris"
 description = "An iris range centered at 270 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [242, 249, 256, 263, 270, 277, 284, 291, 298]
 
-[folder_colors.lavender]
+[accent_colors.lavender]
 name = "Lavender"
 description = "A lavender range centered at 280 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [252, 259, 266, 273, 280, 287, 294, 301, 308]
 
-[folder_colors.wisteria]
+[accent_colors.wisteria]
 name = "Wisteria"
 description = "A wisteria range centered at 290 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [262, 269, 276, 283, 290, 297, 304, 311, 318]
 
-[folder_colors.lilac]
+[accent_colors.lilac]
 name = "Lilac"
 description = "A lilac range centered at 300 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [272, 279, 286, 293, 300, 307, 314, 321, 328]
 
-[folder_colors.amethyst]
+[accent_colors.amethyst]
 name = "Amethyst"
 description = "An amethyst range centered at 310 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [282, 289, 296, 303, 310, 317, 324, 331, 338]
 
-[folder_colors.orchid]
+[accent_colors.orchid]
 name = "Orchid"
 description = "An orchid range centered at 320 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [292, 299, 306, 313, 320, 327, 334, 341, 348]
 
-[folder_colors.plum]
+[accent_colors.plum]
 name = "Plum"
 description = "A plum range centered at 330 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [302, 309, 316, 323, 330, 337, 344, 351, 358]
 
-[folder_colors.fuchsia]
+[accent_colors.fuchsia]
 name = "Fuchsia"
 description = "A fuchsia range centered at 340 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]
 hues = [312, 319, 326, 333, 340, 347, 354, 1, 8]
 
-[folder_colors.rose]
+[accent_colors.rose]
 name = "Rose"
 description = "A rose range centered at 350 degrees."
 slots = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "grey"]

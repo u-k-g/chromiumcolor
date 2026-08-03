@@ -16,7 +16,6 @@ const REQUIRED_THEME_KEYS = [
   name
   description
   mode
-  default_folder_color
   colors
 ]
 
@@ -346,21 +345,51 @@ def rgb [hex: string] {
   }
 }
 
+def lab-pivot [value: number] {
+  let epsilon = (6.0 / 29.0) ** 3
+  if $value > $epsilon {
+    $value ** (1.0 / 3.0)
+  } else {
+    ($value / (3.0 * ((6.0 / 29.0) ** 2))) + (4.0 / 29.0)
+  }
+}
+
+def rgb-to-lab [channels: list] {
+  let linear = $channels | each {|channel| linearized-component $channel }
+  let x = (($linear.0 * 0.4124564) + ($linear.1 * 0.3575761) + ($linear.2 * 0.1804375)) / 95.047
+  let y = (($linear.0 * 0.2126729) + ($linear.1 * 0.7151522) + ($linear.2 * 0.0721750)) / 100.0
+  let z = (($linear.0 * 0.0193339) + ($linear.1 * 0.1191920) + ($linear.2 * 0.9503041)) / 108.883
+  let fx = lab-pivot $x
+  let fy = lab-pivot $y
+  let fz = lab-pivot $z
+  [((116.0 * $fy) - 16.0) (500.0 * ($fx - $fy)) (200.0 * ($fy - $fz))]
+}
+
+def lab-distance [first: list, second: list] {
+  0..2
+  | each {|index|
+      let delta = ($first | get $index) - ($second | get $index)
+      $delta * $delta
+    }
+  | math sum
+  | math sqrt
+}
+
 def validate-catalog [catalog: record] {
   let top_level = $catalog | columns
-  for key in [project themes folder_colors] {
+  for key in [project themes accent_colors] {
     if $key not-in $top_level {
       fail $"missing [($key)] table"
     }
   }
 
   let theme_ids = $catalog.themes | columns
-  let folder_ids = $catalog.folder_colors | columns
+  let accent_ids = $catalog.accent_colors | columns
   if ($theme_ids | is-empty) {
     fail "at least one [themes.<id>] table is required"
   }
-  if ($folder_ids | is-empty) {
-    fail "at least one [folder_colors.<id>] table is required"
+  if ($accent_ids | is-empty) {
+    fail "at least one [accent_colors.<id>] table is required"
   }
 
   for key in [name version default_theme] {
@@ -413,38 +442,38 @@ def validate-catalog [catalog: record] {
         fail $"themes.($theme_id).colors.($key) must be a #rrggbb color"
       }
     }
-    if $theme.default_folder_color not-in $folder_ids {
-      fail $"themes.($theme_id).default_folder_color references an unknown palette"
+    if ($theme.colors.omnibox_text | str lowercase) != ($theme.colors.ntp_link | str lowercase) {
+      fail $"themes.($theme_id) must use the same accent for colors.omnibox_text and colors.ntp_link"
     }
   }
 
-  for folder_id in $folder_ids {
-    if $folder_id !~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' {
-      fail $"invalid folder-color ID: ($folder_id)"
+  for accent_id in $accent_ids {
+    if $accent_id !~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' {
+      fail $"invalid accent-color ID: ($accent_id)"
     }
-    let folder = $catalog.folder_colors | get $folder_id
-    let keys = $folder | columns
+    let accent = $catalog.accent_colors | get $accent_id
+    let keys = $accent | columns
     for key in [name description slots hues] {
       if $key not-in $keys {
-        fail $"folder_colors.($folder_id) is missing ($key)"
+        fail $"accent_colors.($accent_id) is missing ($key)"
       }
     }
     for key in [name description] {
-      let value = $folder | get $key
+      let value = $accent | get $key
       if (($value | describe) != "string") or (($value | str trim | is-empty)) {
-        fail $"folder_colors.($folder_id).($key) must be a non-empty string"
+        fail $"accent_colors.($accent_id).($key) must be a non-empty string"
       }
     }
-    if $folder.slots != $EXPECTED_SLOTS {
-      fail $"folder_colors.($folder_id).slots must contain Chromium's nine tab-group slots in order"
+    if $accent.slots != $EXPECTED_SLOTS {
+      fail $"accent_colors.($accent_id).slots must contain Chromium's nine tab-group slots in order"
     }
-    if (($folder.hues | describe) !~ '^list') or (($folder.hues | length) != 9) {
-      fail $"folder_colors.($folder_id).hues must contain nine integers from 0 to 359"
+    if (($accent.hues | describe) !~ '^list') or (($accent.hues | length) != 9) {
+      fail $"accent_colors.($accent_id).hues must contain nine integers from 0 to 359"
     }
-    if not ($folder.hues | all {|value|
+    if not ($accent.hues | all {|value|
       (($value | describe) == "int") and $value >= 0 and $value <= 359
     }) {
-      fail $"folder_colors.($folder_id).hues must contain nine integers from 0 to 359"
+      fail $"accent_colors.($accent_id).hues must contain nine integers from 0 to 359"
     }
   }
 }
@@ -465,50 +494,69 @@ def hues-around [middle: int] {
   }
 }
 
-def resolve-folder [catalog: record, choice: string] {
-  let folder_ids = $catalog.folder_colors | columns
-  if $choice in $folder_ids {
-    return ($catalog.folder_colors | get $choice)
+def resolve-accent [catalog: record, choice: string] {
+  let accent_ids = $catalog.accent_colors | columns
+  if $choice in $accent_ids {
+    return ($catalog.accent_colors | get $choice)
   }
   if $choice =~ '^-?\d+$' {
     let middle = $choice | into int
     if $middle < 0 or $middle > 359 {
-      fail $"folder hue must be an integer from 0 to 359; got '($choice)'"
+      fail $"accent hue must be an integer from 0 to 359; got '($choice)'"
     }
     return {
       name: $"Hue ($middle)°"
-      description: $"A custom tab-group range centered at ($middle) degrees."
+      description: $"A custom accent range centered at ($middle) degrees."
       slots: $EXPECTED_SLOTS
       hues: (hues-around $middle)
     }
   }
-  fail $"unknown folder color or hue '($choice)'; choose a name from `just list` or an integer from 0 to 359"
+  fail $"unknown accent color or hue '($choice)'; choose a name from `just list` or an integer from 0 to 359"
 }
 
-def make-manifest [catalog: record, theme_id: string, folder_choice: string] {
+def closest-accent-id [catalog: record, theme: record] {
+  let accent = rgb-to-lab (rgb $theme.colors.omnibox_text)
+  $catalog.accent_colors
+  | transpose id palette
+  | each {|entry|
+      let midpoint = hct-to-hex $entry.palette.hues.4
+      {
+        id: $entry.id
+        distance: (lab-distance $accent (rgb-to-lab (rgb $midpoint)))
+      }
+    }
+  | sort-by distance
+  | first
+  | get id
+}
+
+def make-manifest [catalog: record, theme_id: string, accent_choice: string] {
   let theme_ids = $catalog.themes | columns
   if $theme_id not-in $theme_ids {
     fail $"unknown theme '($theme_id)'; choose one of: ($theme_ids | str join ', ')"
   }
 
   let theme = $catalog.themes | get $theme_id
-  let folder = resolve-folder $catalog $folder_choice
-  let tab_group_palette = $folder.slots
-    | zip $folder.hues
+  let palette = resolve-accent $catalog $accent_choice
+  let tab_group_palette = $palette.slots
+    | zip $palette.hues
     | reduce -f {} {|pair, palette|
         $palette | insert $"($pair.0)_override" $pair.1
       }
 
+  let accent_rgb = rgb (hct-to-hex $palette.hues.4)
   let colors = $theme.colors
     | transpose key value
     | reduce -f {} {|entry, generated|
         $generated | insert $entry.key (rgb $entry.value)
       }
+    | upsert omnibox_text $accent_rgb
+    | upsert ntp_link $accent_rgb
 
   {
     version: $catalog.project.version
-    name: $"($catalog.project.name) — ($theme.name) / ($folder.name)"
-    description: $"($theme.description) ($folder.name) colors apply only to tab groups."
+    name: $"($catalog.project.name) — ($theme.name) / ($palette.name)"
+    description: $"($theme.description) ($palette.name) colors apply to tab groups and accents."
     manifest_version: 3
     theme: {
       colors: $colors
@@ -559,18 +607,17 @@ def print-catalog [catalog: record] {
   for theme_id in ($catalog.themes | columns) {
     let theme = $catalog.themes | get $theme_id
     let padded_id = $theme_id | fill --alignment left --width 14
-    print $"  ($padded_id) default: ($theme.default_folder_color)"
+    let default_accent = closest-accent-id $catalog $theme
+    print $"  ($padded_id) default: ($default_accent)"
   }
-  print "\nFolder colors (tab groups on dark themes):"
-  for folder_id in ($catalog.folder_colors | columns) {
-    let folder = $catalog.folder_colors | get $folder_id
-    let padded_id = $folder_id | fill --alignment left --width 14
-    let first_color = hct-to-hex $folder.hues.0
-    let middle_color = hct-to-hex $folder.hues.4
-    let last_color = hct-to-hex $folder.hues.8
+  print "\nAccent colors:"
+  for accent_id in ($catalog.accent_colors | columns) {
+    let accent = $catalog.accent_colors | get $accent_id
+    let padded_id = $accent_id | fill --alignment left --width 14
+    let middle_color = hct-to-hex $accent.hues.4
     let color = ansi $middle_color
     let reset = ansi reset
-    print $"($color)  ($padded_id) ~($first_color) - ($last_color) · middle ($middle_color) \(($folder.hues.4)°\)($reset)"
+    print $"($color)  ($padded_id) ~ ($middle_color) \(($accent.hues.4)°\)($reset)"
   }
 }
 
@@ -588,13 +635,13 @@ def main [
   --clean
 ] {
   if ($selection | length) > 2 {
-    fail "usage: just build [theme] [folder-color|hue]"
+    fail "usage: just build [theme] [accent-color|hue]"
   }
   if ([$list $check $clean] | where {|action| $action } | length) > 1 {
     fail "choose only one of --list, --check or --clean"
   }
   if (($list or $check or $clean) and (not ($selection | is-empty))) {
-    fail "catalog actions do not accept theme or folder-color choices"
+    fail "catalog actions do not accept theme or accent-color choices"
   }
 
   let root = $env.CURRENT_FILE | path dirname | path dirname | path expand
@@ -621,16 +668,25 @@ def main [
       fail "HCT conversion does not match Chromium's shade-300 reference for hue 40"
     }
     mut combinations = 0
-    let folder_ids = $catalog.folder_colors | columns
+    let accent_ids = $catalog.accent_colors | columns
     for theme_id in ($catalog.themes | columns) {
-      let baseline_manifest = make-manifest $catalog $theme_id $folder_ids.0
-      let baseline = $baseline_manifest.theme | reject tab_group_color_palette
-      for folder_id in $folder_ids {
-        let manifest = make-manifest $catalog $theme_id $folder_id
+      let baseline_manifest = make-manifest $catalog $theme_id $accent_ids.0
+      let baseline = $baseline_manifest.theme
+        | update colors ($baseline_manifest.theme.colors | reject omnibox_text ntp_link)
+        | reject tab_group_color_palette
+      for accent_id in $accent_ids {
+        let manifest = make-manifest $catalog $theme_id $accent_id
         validate-manifest $manifest
-        let generated_theme = $manifest.theme | reject tab_group_color_palette
+        let generated_theme = $manifest.theme
+          | update colors ($manifest.theme.colors | reject omnibox_text ntp_link)
+          | reject tab_group_color_palette
         if $generated_theme != $baseline {
-          fail $"folder color '($folder_id)' changes non-tab-group values for theme '($theme_id)'"
+          fail $"accent color '($accent_id)' changes non-accent browser colors for theme '($theme_id)'"
+        }
+        let accent = $catalog.accent_colors | get $accent_id
+        let expected_accent = rgb (hct-to-hex $accent.hues.4)
+        if ($manifest.theme.colors.omnibox_text != $expected_accent) or ($manifest.theme.colors.ntp_link != $expected_accent) {
+          fail $"accent color '($accent_id)' does not set both accent colors for theme '($theme_id)'"
         }
         $combinations = $combinations + 1
       }
@@ -641,7 +697,11 @@ def main [
       let actual_hues = $manifest.theme.tab_group_color_palette | values
       let expected_hues = hues-around $middle
       if $actual_hues != $expected_hues {
-        fail $"custom folder hue ($middle) did not generate the expected 7-degree range"
+        fail $"custom accent hue ($middle) did not generate the expected 7-degree range"
+      }
+      let expected_accent = rgb (hct-to-hex $middle)
+      if ($manifest.theme.colors.omnibox_text != $expected_accent) or ($manifest.theme.colors.ntp_link != $expected_accent) {
+        fail $"custom accent hue ($middle) did not set both accent colors"
       }
     }
     print $"Validated ($combinations) named combinations and custom hue generation."
@@ -658,14 +718,14 @@ def main [
     fail $"unknown theme '($theme_id)'; choose one of: ($theme_ids | str join ', ')"
   }
   let theme = $catalog.themes | get $theme_id
-  let folder_id = if ($selection | length) == 2 {
+  let accent_id = if ($selection | length) == 2 {
     $selection.1
   } else {
-    $theme.default_folder_color
+    closest-accent-id $catalog $theme
   }
-  let manifest = make-manifest $catalog $theme_id $folder_id
+  let manifest = make-manifest $catalog $theme_id $accent_id
   validate-manifest $manifest
   let destination = write-manifest $manifest $default_output
-  print $"Built ($theme_id) + ($folder_id): ($destination | path relative-to $root)"
+  print $"Built ($theme_id) + ($accent_id): ($destination | path relative-to $root)"
   print $"Load unpacked: ($default_output)"
 }
