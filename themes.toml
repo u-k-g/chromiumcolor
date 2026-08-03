@@ -15,7 +15,7 @@ toolbar = "#282828"
 foreground = "#ebdbb2"
 muted = "#a89984"
 accent = "#d79921"
-default_folder_color = "gold"
+default_folder_color = "peach"
 
 [themes.black-metal]
 name = "Black Metal"
@@ -26,7 +26,7 @@ toolbar = "#111111"
 foreground = "#c1c1c1"
 muted = "#888888"
 accent = "#888888"
-default_folder_color = "steel"
+default_folder_color = "cyan"
 
 [themes.iceberg-dark]
 name = "Iceberg Dark"
@@ -37,7 +37,7 @@ toolbar = "#1e2132"
 foreground = "#c6c8d1"
 muted = "#6b7089"
 accent = "#84a0c6"
-default_folder_color = "ice"
+default_folder_color = "azure"
 
 [themes.rose-pine]
 name = "Rose Pine"
@@ -61,7 +61,7 @@ toolbar = "#28282a"
 foreground = "#f5f5f4"
 muted = "#a1a1aa"
 accent = "#6ced96"
-default_folder_color = "mint"
+default_folder_color = "pistachio"
 
 [themes.zen-light]
 name = "Zen Light"
@@ -72,150 +72,223 @@ toolbar = "#e6e3df"
 foreground = "#27272a"
 muted = "#71717a"
 accent = "#2d633f"
-default_folder_color = "mint"
+default_folder_color = "pistachio"
 
 # Folder colors affect only theme.tab_group_color_palette. Chromium interprets these integers as
 # hue angles for its nine built-in tab-group color slots, in the order documented by `slots`.
 
+[folder_colors.carnation]
+name = "Carnation"
+description = "A soft pink range centered at 0 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [320, 330, 340, 350, 0, 10, 20, 30, 40]
+
+[folder_colors.flamingo]
+name = "Flamingo"
+description = "A warm pink range centered at 10 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [330, 340, 350, 0, 10, 20, 30, 40, 50]
+
+[folder_colors.salmon]
+name = "Salmon"
+description = "A pink-coral range centered at 20 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [340, 350, 0, 10, 20, 30, 40, 50, 60]
+
+[folder_colors.coral]
+name = "Coral"
+description = "A coral range centered at 30 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [350, 0, 10, 20, 30, 40, 50, 60, 70]
+
+[folder_colors.peach]
+name = "Peach"
+description = "A peach range centered at 40 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [0, 10, 20, 30, 40, 50, 60, 70, 80]
+
+[folder_colors.apricot]
+name = "Apricot"
+description = "An apricot range centered at 50 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+
+[folder_colors.tangerine]
+name = "Tangerine"
+description = "A tangerine range centered at 60 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+[folder_colors.orange]
+name = "Orange"
+description = "An orange range centered at 70 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [30, 40, 50, 60, 70, 80, 90, 100, 110]
+
+[folder_colors.amber]
+name = "Amber"
+description = "An amber range centered at 80 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [40, 50, 60, 70, 80, 90, 100, 110, 120]
+
 [folder_colors.gold]
 name = "Gold"
-description = "Warm gold and amber hues; the natural Gruvbox companion."
-base_color = "#d79921"
+description = "A gold range centered at 90 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [10, 18, 26, 34, 42, 50, 58, 66, 74]
+hues = [50, 60, 70, 80, 90, 100, 110, 120, 130]
 
-[folder_colors.red]
-name = "Red"
-description = "A red-to-orange tab-group range."
-base_color = "#cc241d"
+[folder_colors.mustard]
+name = "Mustard"
+description = "A mustard range centered at 100 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [330, 338, 346, 354, 2, 10, 18, 26, 34]
+hues = [60, 70, 80, 90, 100, 110, 120, 130, 140]
 
-[folder_colors.green]
-name = "Green"
-description = "The original Gruvbox green tab-group range."
-base_color = "#98971a"
+[folder_colors.citron]
+name = "Citron"
+description = "A citron range centered at 110 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [28, 36, 44, 52, 60, 68, 76, 84, 92]
+hues = [70, 80, 90, 100, 110, 120, 130, 140, 150]
 
-[folder_colors.aqua]
-name = "Aqua"
-description = "The original Gruvbox aqua tab-group range."
-base_color = "#689d6a"
+[folder_colors.chartreuse]
+name = "Chartreuse"
+description = "A chartreuse range centered at 120 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [90, 98, 106, 114, 122, 130, 138, 146, 154]
+hues = [80, 90, 100, 110, 120, 130, 140, 150, 160]
 
-[folder_colors.blue]
-name = "Blue"
-description = "The original Gruvbox blue tab-group range."
-base_color = "#458588"
+[folder_colors.lime]
+name = "Lime"
+description = "A lime range centered at 130 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [151, 159, 167, 175, 183, 191, 199, 207, 215]
+hues = [90, 100, 110, 120, 130, 140, 150, 160, 170]
 
-[folder_colors.purple]
-name = "Purple"
-description = "The original Gruvbox purple tab-group range."
-base_color = "#b16286"
+[folder_colors.pistachio]
+name = "Pistachio"
+description = "A pistachio range centered at 140 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [301, 309, 317, 325, 333, 341, 349, 357, 5]
+hues = [100, 110, 120, 130, 140, 150, 160, 170, 180]
 
-[folder_colors.steel]
-name = "Steel"
-description = "Cool steel and slate hues for Black Metal and other neutral themes."
-base_color = "#5f8190"
+[folder_colors.emerald]
+name = "Emerald"
+description = "An emerald range centered at 150 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [170, 178, 186, 194, 202, 210, 218, 226, 234]
-
-[folder_colors.ice]
-name = "Ice"
-description = "An icy blue range centered on Iceberg's accent."
-base_color = "#84a0c6"
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [188, 196, 204, 212, 220, 228, 236, 244, 252]
-
-[folder_colors.rose]
-name = "Rose"
-description = "Dusty pink and rose hues suited to Rose Pine."
-base_color = "#eb6f92"
-slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [315, 323, 331, 339, 347, 355, 3, 11, 19]
+hues = [110, 120, 130, 140, 150, 160, 170, 180, 190]
 
 [folder_colors.mint]
 name = "Mint"
-description = "A calm herbal-mint range suited to Zen Dark and Zen Light."
-base_color = "#6ced96"
+description = "A mint range centered at 160 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [108, 116, 124, 132, 140, 148, 156, 164, 172]
+hues = [120, 130, 140, 150, 160, 170, 180, 190, 200]
 
-# Black Metal variant palettes are centered on the distinctive warning/accent color from Suda's
-# former variant catalog.
-
-[folder_colors.bathory]
-name = "Bathory"
-description = "Burnished orange hues centered on Black Metal Bathory's #e78a53."
-base_color = "#e78a53"
+[folder_colors.aquamarine]
+name = "Aquamarine"
+description = "An aquamarine range centered at 170 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [350, 358, 6, 14, 22, 30, 38, 46, 54]
+hues = [130, 140, 150, 160, 170, 180, 190, 200, 210]
 
-[folder_colors.burzum]
-name = "Burzum"
-description = "Muted sage hues centered on Black Metal Burzum's #99bbaa."
-base_color = "#99bbaa"
+[folder_colors.turquoise]
+name = "Turquoise"
+description = "A turquoise range centered at 180 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [118, 126, 134, 142, 150, 158, 166, 174, 182]
+hues = [140, 150, 160, 170, 180, 190, 200, 210, 220]
 
-[folder_colors.dark-funeral]
-name = "Dark Funeral"
-description = "Cold blue hues centered on Black Metal Dark Funeral's #5f81a5."
-base_color = "#5f81a5"
+[folder_colors.aqua]
+name = "Aqua"
+description = "An aqua range centered at 190 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [179, 187, 195, 203, 211, 219, 227, 235, 243]
+hues = [150, 160, 170, 180, 190, 200, 210, 220, 230]
 
-[folder_colors.gorgoroth]
-name = "Gorgoroth"
-description = "Weathered brown hues centered on Black Metal Gorgoroth's #8c7f70."
-base_color = "#8c7f70"
+[folder_colors.cyan]
+name = "Cyan"
+description = "A cyan range centered at 200 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [0, 8, 16, 24, 32, 40, 48, 56, 64]
+hues = [160, 170, 180, 190, 200, 210, 220, 230, 240]
 
-[folder_colors.immortal]
-name = "Immortal"
-description = "Slate blue hues centered on Black Metal Immortal's #556677."
-base_color = "#556677"
+[folder_colors.cerulean]
+name = "Cerulean"
+description = "A cerulean range centered at 210 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [178, 186, 194, 202, 210, 218, 226, 234, 242]
+hues = [170, 180, 190, 200, 210, 220, 230, 240, 250]
 
-[folder_colors.khold]
-name = "Khold"
-description = "Rust red hues centered on Black Metal Khold's #974b46."
-base_color = "#974b46"
+[folder_colors.azure]
+name = "Azure"
+description = "An azure range centered at 220 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [332, 340, 348, 356, 4, 12, 20, 28, 36]
+hues = [180, 190, 200, 210, 220, 230, 240, 250, 260]
 
-[folder_colors.marduk]
-name = "Marduk"
-description = "Desaturated green hues centered on Black Metal Marduk's #626b67."
-base_color = "#626b67"
+[folder_colors.sky]
+name = "Sky"
+description = "A sky range centered at 230 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [121, 129, 137, 145, 153, 161, 169, 177, 185]
+hues = [190, 200, 210, 220, 230, 240, 250, 260, 270]
 
-[folder_colors.mayhem]
-name = "Mayhem"
-description = "Pale gold hues centered on Black Metal Mayhem's #eecc6c."
-base_color = "#eecc6c"
+[folder_colors.capri]
+name = "Capri"
+description = "A capri-blue range centered at 240 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [12, 20, 28, 36, 44, 52, 60, 68, 76]
+hues = [200, 210, 220, 230, 240, 250, 260, 270, 280]
 
-[folder_colors.nile]
-name = "Nile"
-description = "Dark olive hues centered on Black Metal Nile's #777755."
-base_color = "#777755"
+[folder_colors.cornflower]
+name = "Cornflower"
+description = "A cornflower range centered at 250 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [28, 36, 44, 52, 60, 68, 76, 84, 92]
+hues = [210, 220, 230, 240, 250, 260, 270, 280, 290]
 
-[folder_colors.venom]
-name = "Venom"
-description = "Blood red hues centered on Black Metal Venom's #79241f."
-base_color = "#79241f"
+[folder_colors.periwinkle]
+name = "Periwinkle"
+description = "A periwinkle range centered at 260 degrees."
 slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
-hues = [331, 339, 347, 355, 3, 11, 19, 27, 35]
+hues = [220, 230, 240, 250, 260, 270, 280, 290, 300]
+
+[folder_colors.iris]
+name = "Iris"
+description = "An iris range centered at 270 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [230, 240, 250, 260, 270, 280, 290, 300, 310]
+
+[folder_colors.lavender]
+name = "Lavender"
+description = "A lavender range centered at 280 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [240, 250, 260, 270, 280, 290, 300, 310, 320]
+
+[folder_colors.wisteria]
+name = "Wisteria"
+description = "A wisteria range centered at 290 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [250, 260, 270, 280, 290, 300, 310, 320, 330]
+
+[folder_colors.lilac]
+name = "Lilac"
+description = "A lilac range centered at 300 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [260, 270, 280, 290, 300, 310, 320, 330, 340]
+
+[folder_colors.amethyst]
+name = "Amethyst"
+description = "An amethyst range centered at 310 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [270, 280, 290, 300, 310, 320, 330, 340, 350]
+
+[folder_colors.orchid]
+name = "Orchid"
+description = "An orchid range centered at 320 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [280, 290, 300, 310, 320, 330, 340, 350, 0]
+
+[folder_colors.plum]
+name = "Plum"
+description = "A plum range centered at 330 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [290, 300, 310, 320, 330, 340, 350, 0, 10]
+
+[folder_colors.fuchsia]
+name = "Fuchsia"
+description = "A fuchsia range centered at 340 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [300, 310, 320, 330, 340, 350, 0, 10, 20]
+
+[folder_colors.rose]
+name = "Rose"
+description = "A rose range centered at 350 degrees."
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [310, 320, 330, 340, 350, 0, 10, 20, 30]

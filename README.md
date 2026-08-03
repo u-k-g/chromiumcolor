@@ -32,7 +32,7 @@ just build
 just build rose-pine
 
 # build a specific theme and folder-color combination
-just build black-metal bathory
+just build black-metal salmon
 ```
 
 `just build` writes the selected combination to `dist/chromiumcolor`. run it again and reload the unpacked theme whenever you want to switch combinations.
