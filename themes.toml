@@ -1,0 +1,221 @@
+[project]
+name = "ChromiumColor"
+version = "2.0.0"
+default_theme = "zen-dark"
+
+# Browser UI themes. Folder/tab-group colors are deliberately not defined here: a build can pair
+# any theme below with any independent folder_colors palette.
+
+[themes.gruvbox]
+name = "Gruvbox Dark Hard"
+description = "A warm Chromium theme based on the Gruvbox Dark Hard palette."
+mode = "dark"
+frame = "#1d2021"
+toolbar = "#282828"
+foreground = "#ebdbb2"
+muted = "#a89984"
+accent = "#d79921"
+default_folder_color = "gold"
+
+[themes.black-metal]
+name = "Black Metal"
+description = "A stark, near-monochrome Chromium theme based on the Black Metal palette."
+mode = "dark"
+frame = "#000000"
+toolbar = "#111111"
+foreground = "#c1c1c1"
+muted = "#888888"
+accent = "#888888"
+default_folder_color = "steel"
+
+[themes.iceberg-dark]
+name = "Iceberg Dark"
+description = "A cool blue Chromium theme based on the Iceberg dark palette."
+mode = "dark"
+frame = "#161821"
+toolbar = "#1e2132"
+foreground = "#c6c8d1"
+muted = "#6b7089"
+accent = "#84a0c6"
+default_folder_color = "ice"
+
+[themes.rose-pine]
+name = "Rose Pine"
+description = "A muted, elegant Chromium theme based on the Rose Pine palette."
+mode = "dark"
+frame = "#191724"
+toolbar = "#1f1d2e"
+foreground = "#e0def4"
+muted = "#908caa"
+accent = "#9ccfd8"
+default_folder_color = "rose"
+
+# The Zen palettes use Suda's canvas and foreground as anchors. Chromium-specific surfaces and the
+# light-mode accent are adjusted around them for clear browser chrome.
+[themes.zen-dark]
+name = "Zen Dark"
+description = "A calm dark Chromium theme inspired by Suda's Zen dark palette."
+mode = "dark"
+frame = "#19191b"
+toolbar = "#28282a"
+foreground = "#f5f5f4"
+muted = "#a1a1aa"
+accent = "#6ced96"
+default_folder_color = "mint"
+
+[themes.zen-light]
+name = "Zen Light"
+description = "A calm light Chromium theme inspired by Suda's Zen light palette."
+mode = "light"
+frame = "#f4f1ed"
+toolbar = "#e6e3df"
+foreground = "#27272a"
+muted = "#71717a"
+accent = "#2d633f"
+default_folder_color = "mint"
+
+# Folder colors affect only theme.tab_group_color_palette. Chromium interprets these integers as
+# hue angles for its nine built-in tab-group color slots, in the order documented by `slots`.
+
+[folder_colors.gold]
+name = "Gold"
+description = "Warm gold and amber hues; the natural Gruvbox companion."
+base_color = "#d79921"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [10, 18, 26, 34, 42, 50, 58, 66, 74]
+
+[folder_colors.red]
+name = "Red"
+description = "A red-to-orange tab-group range."
+base_color = "#cc241d"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [330, 338, 346, 354, 2, 10, 18, 26, 34]
+
+[folder_colors.green]
+name = "Green"
+description = "The original Gruvbox green tab-group range."
+base_color = "#98971a"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [28, 36, 44, 52, 60, 68, 76, 84, 92]
+
+[folder_colors.aqua]
+name = "Aqua"
+description = "The original Gruvbox aqua tab-group range."
+base_color = "#689d6a"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [90, 98, 106, 114, 122, 130, 138, 146, 154]
+
+[folder_colors.blue]
+name = "Blue"
+description = "The original Gruvbox blue tab-group range."
+base_color = "#458588"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [151, 159, 167, 175, 183, 191, 199, 207, 215]
+
+[folder_colors.purple]
+name = "Purple"
+description = "The original Gruvbox purple tab-group range."
+base_color = "#b16286"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [301, 309, 317, 325, 333, 341, 349, 357, 5]
+
+[folder_colors.steel]
+name = "Steel"
+description = "Cool steel and slate hues for Black Metal and other neutral themes."
+base_color = "#5f8190"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [170, 178, 186, 194, 202, 210, 218, 226, 234]
+
+[folder_colors.ice]
+name = "Ice"
+description = "An icy blue range centered on Iceberg's accent."
+base_color = "#84a0c6"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [188, 196, 204, 212, 220, 228, 236, 244, 252]
+
+[folder_colors.rose]
+name = "Rose"
+description = "Dusty pink and rose hues suited to Rose Pine."
+base_color = "#eb6f92"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [315, 323, 331, 339, 347, 355, 3, 11, 19]
+
+[folder_colors.mint]
+name = "Mint"
+description = "A calm herbal-mint range suited to Zen Dark and Zen Light."
+base_color = "#6ced96"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [108, 116, 124, 132, 140, 148, 156, 164, 172]
+
+# Black Metal variant palettes are centered on the distinctive warning/accent color from Suda's
+# former variant catalog.
+
+[folder_colors.bathory]
+name = "Bathory"
+description = "Burnished orange hues centered on Black Metal Bathory's #e78a53."
+base_color = "#e78a53"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [350, 358, 6, 14, 22, 30, 38, 46, 54]
+
+[folder_colors.burzum]
+name = "Burzum"
+description = "Muted sage hues centered on Black Metal Burzum's #99bbaa."
+base_color = "#99bbaa"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [118, 126, 134, 142, 150, 158, 166, 174, 182]
+
+[folder_colors.dark-funeral]
+name = "Dark Funeral"
+description = "Cold blue hues centered on Black Metal Dark Funeral's #5f81a5."
+base_color = "#5f81a5"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [179, 187, 195, 203, 211, 219, 227, 235, 243]
+
+[folder_colors.gorgoroth]
+name = "Gorgoroth"
+description = "Weathered brown hues centered on Black Metal Gorgoroth's #8c7f70."
+base_color = "#8c7f70"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [0, 8, 16, 24, 32, 40, 48, 56, 64]
+
+[folder_colors.immortal]
+name = "Immortal"
+description = "Slate blue hues centered on Black Metal Immortal's #556677."
+base_color = "#556677"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [178, 186, 194, 202, 210, 218, 226, 234, 242]
+
+[folder_colors.khold]
+name = "Khold"
+description = "Rust red hues centered on Black Metal Khold's #974b46."
+base_color = "#974b46"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [332, 340, 348, 356, 4, 12, 20, 28, 36]
+
+[folder_colors.marduk]
+name = "Marduk"
+description = "Desaturated green hues centered on Black Metal Marduk's #626b67."
+base_color = "#626b67"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [121, 129, 137, 145, 153, 161, 169, 177, 185]
+
+[folder_colors.mayhem]
+name = "Mayhem"
+description = "Pale gold hues centered on Black Metal Mayhem's #eecc6c."
+base_color = "#eecc6c"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [12, 20, 28, 36, 44, 52, 60, 68, 76]
+
+[folder_colors.nile]
+name = "Nile"
+description = "Dark olive hues centered on Black Metal Nile's #777755."
+base_color = "#777755"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [28, 36, 44, 52, 60, 68, 76, 84, 92]
+
+[folder_colors.venom]
+name = "Venom"
+description = "Blood red hues centered on Black Metal Venom's #79241f."
+base_color = "#79241f"
+slots = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]
+hues = [331, 339, 347, 355, 3, 11, 19, 27, 35]

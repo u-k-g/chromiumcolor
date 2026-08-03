@@ -1,16 +1,9 @@
 *
 
-!.gitignore
+!/.gitignore
+!/README.md
+!/justfile
+!/themes.toml
 
-!swatches/
-!swatches/**/
-
-!variants/
-!variants/**/
-
-!manifest.json
-!README.md
-
-!variants/*/manifest.json
-
-!*.png
+!/scripts/
+!/scripts/build_theme.py

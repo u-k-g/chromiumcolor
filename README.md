@@ -1,44 +1,50 @@
-# chromium-gruvbox
+# chromiumcolor
 
 <details open>
 <summary><strong>overview</strong></summary>
 
-`chromium-gruvbox` is a minimal chromium theme based on **gruvbox dark hard**. it uses the hard variant's deep background, warm surfaces, soft foregrounds and a restrained gold accent.
+`chromiumcolor` is a minimal chromium theme builder driven by `themes.toml`. choose a browser theme, pair it with a tab-group color palette and compile a directory ready to load unpacked.
 
-- gruvbox colors throughout the browser ui
-- a wide folder-color gradient centered on the theme accent
-<img width="1600" height="1045" alt="image" src="https://github.com/user-attachments/assets/ac1fe1f4-444c-42ee-a8d8-d8f5628b0c64" />
+- multiple dark and light browser themes
+- independent folder colors that affect tab groups only
+- one generated theme in `dist/chromiumcolor`
 
+<img width="1600" height="1045" alt="chromiumcolor" src="https://github.com/user-attachments/assets/ac1fe1f4-444c-42ee-a8d8-d8f5628b0c64" />
+
+</details>
+
+<details open>
+<summary><strong>setup and build</strong></summary>
+
+install [just](https://just.systems/) and python 3.11 or newer, then:
+
+```sh
+git clone https://github.com/u-k-g/chromiumcolor.git
+cd chromiumcolor
+
+# show the available themes, their defaults and all folder colors
+just list
+
+# build the default theme and folder color
+just build
+
+# build a theme with its default folder color
+just build rose-pine
+
+# build a specific theme and folder-color combination
+just build black-metal bathory
+```
+
+`just build` writes the selected combination to `dist/chromiumcolor`. run it again and reload the unpacked theme whenever you want to switch combinations.
 
 </details>
 
 <details open>
 <summary><strong>installation</strong></summary>
 
-1. open `chrome://extensions`
+1. open `chrome://extensions` or `chromium://extensions`
 2. enable **developer mode**
 3. select **load unpacked**
-4. choose this directory
-
-</details>
-
-<details>
-<summary><strong>palette</strong></summary>
-
-- hard background `#1d2021`
-- base `#282828`
-- surface `#3c3836`
-- overlay `#504945`
-- text `#ebdbb2`
-- secondary text `#a89984`
-- accent `#d79921`
-
-</details>
-
-<details>
-<summary><strong>accent variants</strong></summary>
-
-blue, aqua [green], purple [pink], green [yellow] and red accent themes are in `variants/`.
-Load a variant's directory as an unpacked extension to compare it with the main theme.
+4. choose `dist/chromiumcolor`
 
 </details>
