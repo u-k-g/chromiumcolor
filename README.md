@@ -20,11 +20,12 @@
 
 1. install [just](https://just.systems/) and [Nushell](https://www.nushell.sh/)
 2. clone https://github.com/u-k-g/chroma
-3. run `just build <theme> <optional accent color>` from the repository
-4. open `chrome://extensions` or `chromium://extensions`
-5. enable **developer mode**
-6. select **load unpacked**
-7. choose `dist/chroma`
+3. run `just list` to see the available themes and accent colors.
+4. run `just build <theme> <optional accent color>` from the repository
+5. open `chrome://extensions`
+6. enable **developer mode**
+7. select **load unpacked**
+8. choose `chroma/dist/chroma`
 
 </details>
 
@@ -38,4 +39,6 @@
 - `just check` validates every theme and named accent-color combination
 - `just clean` removes generated manifests
 
+contributions are welcome and encouraged.
+if chroma doesn't have the theme you want feel free to make a pr.
 </details>
