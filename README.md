@@ -2,7 +2,7 @@
 
 <p align="center">
   minimal chromium themes.
-.</p>
+</p>
 
 <details open>
 <summary><strong>overview</strong></summary>
