@@ -736,7 +736,7 @@ def main [
   let root = $env.CURRENT_FILE | path dirname | path dirname | path expand
   let catalog_path = $root | path join themes.toml
   let dist = $root | path join dist
-  let default_output = $dist | path join chromiumcolor
+  let default_output = $dist | path join chroma
 
   if $clean {
     if ($dist | path exists) {

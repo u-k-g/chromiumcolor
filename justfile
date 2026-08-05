@@ -3,7 +3,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 # List available recipes.
 default:
   @echo 'Available recipes:'
-  @echo '    build [theme] [accent-color|hue]  # Build one load-unpacked theme in dist/chromiumcolor/.'
+  @echo '    build [theme] [accent-color|hue]  # Build one load-unpacked theme in dist/chroma/.'
   @echo '    check                         # Validate every theme/accent-color combination.'
   @echo '    clean                         # Remove generated manifests.'
   @echo '    list                          # List themes and accent colors.'
