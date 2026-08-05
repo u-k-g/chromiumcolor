@@ -1,43 +1,41 @@
-# chroma
+<h1 align="center">chroma</h1>
+
+<p align="center">
+  minimal chromium themes.
+.</p>
 
 <details open>
 <summary><strong>overview</strong></summary>
 
-`chroma` is a minimal chromium theme builder driven by `themes.toml`. choose a browser theme, pair it with an accent color and compile a directory ready to load unpacked.
-
-- multiple dark and light browser themes
-- independent accent colors that keep tab groups and theme accents in sync
-- one generated theme in `dist/chroma`
+`chroma` is a minimal Chromium theme builder driven by `themes.toml`.
 
 <img width="640" height="418" alt="gruvbox" src="https://github.com/user-attachments/assets/ac1fe1f4-444c-42ee-a8d8-d8f5628b0c64" />
 <img width="640" height="418" alt="black-metal" src="https://github.com/user-attachments/assets/2c1ff8fc-17e1-48db-81bf-65c82f1c6236" />
 <img width="640" height="418" alt="iceberg-dark" src="https://github.com/user-attachments/assets/0ceba285-d78b-47ee-9052-2c1b5d837607" />
 
-
 </details>
 
 <details open>
-<summary><strong>setup, build, and installation</strong></summary>
+<summary><strong>installation</strong></summary>
 
-clone chroma, then install [just](https://just.systems/) and [nushell](https://www.nushell.sh/), then:
+1. install [just](https://just.systems/) and [Nushell](https://www.nushell.sh/)
+2. clone https://github.com/u-k-g/chroma
+3. run `just build <theme> <optional accent color>` from the repository
+4. open `chrome://extensions` or `chromium://extensions`
+5. enable **developer mode**
+6. select **load unpacked**
+7. choose `dist/chroma`
 
-```sh
-# show the available themes, their defaults and all accent colors
-just list
+</details>
 
-# build a theme with its default accent color
-just build rose-pine
+<details>
+<summary><strong>development</strong></summary>
 
-# build a specific theme and accent-color combination
-just build black-metal salmon
-
-# use any 0–359 hue as a custom accent color
-just build black-metal 17
-```
-
-1. open `chrome://extensions` or `chromium://extensions`
-2. enable **developer mode**
-3. select **load unpacked**
-4. choose `dist/chroma`
+- `just list` lists the available themes, their defaults and all accent colors
+- `just build rose-pine` builds a theme with its default accent color
+- `just build black-metal salmon` builds a specific theme and accent-color combination
+- `just build black-metal 17` uses any hue from 0 to 359 as a custom accent color
+- `just check` validates every theme and named accent-color combination
+- `just clean` removes generated manifests
 
 </details>
